@@ -24,22 +24,20 @@ const ll linf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 1e9+7;
 const int N = 1e5 + 5;
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    int n; cin>>n;
-    vector<double> p(n);
-    for(int i = 0; i<n ; i++){
-        cin >> p[i];
-    }
-    vector<double> P(n+1,0.0);
-    P[0]=1.0;
-    for (int i= 0; i<n ; i++){
-        for(int m = i+1; m>=1 ; m--){
-            P[m]=p[i]*P[m-1]+(1-p[i])*P[m] ;
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size();
+        int start = 0;
+        int cur = 0;
+        int gas_tank=0;
+        while(cur < 2* n){
+            if (cur == start + n) return start;
+            gas_tank += gas[cur%n] - cost[cur%n];
+            if (gas_tank<0) {start = cur + 1; gas_tank = 0;}
+            ++cur;
         }
+        
+        return -1;
     }
-    cout<<fixed<<setprecision(10)<<P[n/2+1]<<endl;
-    return 0;
-}
- 
+};

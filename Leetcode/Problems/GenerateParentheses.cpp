@@ -24,22 +24,25 @@ const ll linf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 1e9+7;
 const int N = 1e5 + 5;
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    int n; cin>>n;
-    vector<double> p(n);
-    for(int i = 0; i<n ; i++){
-        cin >> p[i];
-    }
-    vector<double> P(n+1,0.0);
-    P[0]=1.0;
-    for (int i= 0; i<n ; i++){
-        for(int m = i+1; m>=1 ; m--){
-            P[m]=p[i]*P[m-1]+(1-p[i])*P[m] ;
+vector<vector<string>> generate_par(9);
+class Solution {
+public:
+
+    void fill(){
+        generate_par[0].push_back("");
+        for (int n = 1; n<=8; n++){
+            for (int m = 0; m<=n-1 ; m++){
+                for (auto p : generate_par[m]){
+                    for (auto q : generate_par[n-1-m]){
+                        generate_par[n].push_back("("+p+")"+q);
+                    }
+                }
+            }
         }
     }
-    cout<<fixed<<setprecision(10)<<P[n/2+1]<<endl;
-    return 0;
-}
- 
+    vector<string> generateParenthesis(int n) {
+        if(generate_par[n].empty()) fill();
+        return generate_par[n];
+        
+    }
+};

@@ -24,22 +24,20 @@ const ll linf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 1e9+7;
 const int N = 1e5 + 5;
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    int n; cin>>n;
-    vector<double> p(n);
-    for(int i = 0; i<n ; i++){
-        cin >> p[i];
-    }
-    vector<double> P(n+1,0.0);
-    P[0]=1.0;
-    for (int i= 0; i<n ; i++){
-        for(int m = i+1; m>=1 ; m--){
-            P[m]=p[i]*P[m-1]+(1-p[i])*P[m] ;
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        vector<vector<int>> dp(n,vector<int>(m));
+        for (int i = n-1; i>=0 ; i--){
+            for (int j = m-1; j>=0 ; j--){
+                if (i+1==n && j+1 == m) dp[i][j] = grid[i][j];
+                else if (j+1 == m) dp[i][j] = grid[i][j]+dp[i+1][j];
+                else if (i+1 == n) dp[i][j] = grid[i][j]+dp[i][j+1];
+                else dp[i][j] = grid[i][j]+min(dp[i][j+1],dp[i+1][j]);
+            }
         }
+        return dp[0][0];
     }
-    cout<<fixed<<setprecision(10)<<P[n/2+1]<<endl;
-    return 0;
-}
- 
+};

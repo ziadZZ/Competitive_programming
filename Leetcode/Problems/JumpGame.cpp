@@ -24,22 +24,20 @@ const ll linf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 1e9+7;
 const int N = 1e5 + 5;
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    int n; cin>>n;
-    vector<double> p(n);
-    for(int i = 0; i<n ; i++){
-        cin >> p[i];
-    }
-    vector<double> P(n+1,0.0);
-    P[0]=1.0;
-    for (int i= 0; i<n ; i++){
-        for(int m = i+1; m>=1 ; m--){
-            P[m]=p[i]*P[m-1]+(1-p[i])*P[m] ;
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+
+        if (nums.size()==1) return true;
+        if (nums[0]==0) return false;
+
+        // nums[i] becomes the farest point that can be reached 
+        //starting from 0 and jumping over the first i'th position.
+        for (int i = 1 ; i<nums.size()-1 ; i++){
+            nums[i] = max(nums[i]+i, nums[i-1]); 
+            if (nums[i] == i) return false;
         }
+      
+        return true;
     }
-    cout<<fixed<<setprecision(10)<<P[n/2+1]<<endl;
-    return 0;
-}
- 
+};

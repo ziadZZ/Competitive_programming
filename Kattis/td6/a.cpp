@@ -15,6 +15,7 @@ typedef long long ll;
 typedef pair<int, int> pii;
 typedef pair<int, pii> piii;
 typedef vector<int> vi;
+typedef long double ld;
 typedef vector<long> vl;
 typedef vector<long long> vll;
 typedef vector<vector<int>> vvi;
@@ -24,22 +25,21 @@ const ll linf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 1e9+7;
 const int N = 1e5 + 5;
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    int n; cin>>n;
-    vector<double> p(n);
-    for(int i = 0; i<n ; i++){
-        cin >> p[i];
+int main(){
+    int n , W;
+    cin >> W >> n;
+    unordered_map<int,int> a;
+    int w ; int l;
+    for (int i =0; i<n ; i++){
+        cin >> w >> l;
+        auto it = a.find(w);
+        if (it == a.end()) a[w] = l;
+        else it -> second += l;
     }
-    vector<double> P(n+1,0.0);
-    P[0]=1.0;
-    for (int i= 0; i<n ; i++){
-        for(int m = i+1; m>=1 ; m--){
-            P[m]=p[i]*P[m-1]+(1-p[i])*P[m] ;
-        }
+    int ans = 0;
+    for (auto [w, a_w] : a){
+        ans += a_w * w;
     }
-    cout<<fixed<<setprecision(10)<<P[n/2+1]<<endl;
+    cout << ans/W << endl;
     return 0;
 }
- 

@@ -15,6 +15,7 @@ typedef long long ll;
 typedef pair<int, int> pii;
 typedef pair<int, pii> piii;
 typedef vector<int> vi;
+typedef long double ld;
 typedef vector<long> vl;
 typedef vector<long long> vll;
 typedef vector<vector<int>> vvi;
@@ -23,23 +24,33 @@ const int inf = 0x3f3f3f3f;
 const ll linf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 1e9+7;
 const int N = 1e5 + 5;
+string s = "welcome to code jam";
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    int n; cin>>n;
-    vector<double> p(n);
-    for(int i = 0; i<n ; i++){
-        cin >> p[i];
+int lt;
+int ans = 0;
+int mod4 = 10000;
+int ls;
+
+void solve(string& txt, int i, int j){
+    if (j==ls){
+        ans = (ans +1) % mod4;
+        return;
     }
-    vector<double> P(n+1,0.0);
-    P[0]=1.0;
-    for (int i= 0; i<n ; i++){
-        for(int m = i+1; m>=1 ; m--){
-            P[m]=p[i]*P[m-1]+(1-p[i])*P[m] ;
-        }
+    if (i == lt) return;
+    if (txt[i]=txt[j]) solve(txt,i+1,j+1);
+    solve(txt,i+1,j);
+}
+
+
+int main(){
+    int t; cin >> t;
+    string txt;
+    ls = s.length();
+    for (int x = 1; x<=t ; x++){
+        getline(cin, txt);
+        lt = txt.length();
+        solve(txt, 0,0);
+        cout << ans << endl;
     }
-    cout<<fixed<<setprecision(10)<<P[n/2+1]<<endl;
     return 0;
 }
- 

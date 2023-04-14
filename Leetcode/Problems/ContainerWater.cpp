@@ -24,22 +24,20 @@ const ll linf = 0x3f3f3f3f3f3f3f3f;
 const ll mod = 1e9+7;
 const int N = 1e5 + 5;
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    int n; cin>>n;
-    vector<double> p(n);
-    for(int i = 0; i<n ; i++){
-        cin >> p[i];
-    }
-    vector<double> P(n+1,0.0);
-    P[0]=1.0;
-    for (int i= 0; i<n ; i++){
-        for(int m = i+1; m>=1 ; m--){
-            P[m]=p[i]*P[m-1]+(1-p[i])*P[m] ;
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int n, ans, l, r;
+        n = height.size();
+        ans = 0;
+        l = 0;
+        r = n-1;
+        while(l < r){
+            ans = max(ans, min(height[l],height[r])*(r-l));
+            if (height[l]< height[r]) l++;
+            else r--;
         }
+        return ans;
     }
-    cout<<fixed<<setprecision(10)<<P[n/2+1]<<endl;
-    return 0;
-}
- 
+};
