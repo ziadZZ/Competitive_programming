@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxScore(vector<int>& a, vector<int>& b, int k) {
+        long long ans = 0;
+        int n = a.size();
+
+        if (k==1){
+
+            for (int i =0; i<n ; ++i)
+               ans = max(ans, (long long )b[i]*a[i]);
+            return ans;
+        }
+        vector<pair<int,int>> p;
+        for (int i =0; i<n ; ++i){
+            p.push_back(make_pair(b[i],a[i]));
+        }
+        sort(p.begin(), p.end());
+
+        priority_queue<int> q;
+
+        vector<long long> u(n-k+1,0);
+        for (int i = n-k+1; i<n; i++){
+            q.push(-p[i].second);
+            u[n-k] += p[i].second;
+        }
+
+        for (int j =n-k-1; j>=0 ; j--){
+            int val = -q.top();
+            if (val >= p[j+1].second){
+                u[j] = u[j+1];
+            }
+            else{
+                u[j] = u[j+1]+p[j+1].second - val;
+                q.pop();
+                q.push(-p[j+1].second);
+            }
+        }
+
+
+        for (int j = 0; j<= n-k; j++){
+            ans = max (ans, p[j].first*(p[j].second + u[j]));
+        }
+
+        return ans;
+    }
+};
